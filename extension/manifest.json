@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Open in MPV",
-    "version": "1.0",
+    "version": "1.0.1",
     "author": "Juliapixel",
     "developer": {
         "name": "Juliapixel",
