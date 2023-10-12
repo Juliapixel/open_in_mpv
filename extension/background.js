@@ -1,18 +1,19 @@
 browser.menus.create({
     onclick: (info, tab) => {
-        link = ""
+        link = "mpv://"
         if (info.linkUrl !== undefined) {
-            link = info.linkUrl
+            link += info.linkUrl
         } else if (info.srcUrl !== undefined) {
-            link = info.srcUrl
+            link += info.srcUrl
         } else {
-            link = tab.url
+            link += tab.url
         }
-        browser.tabs.create({
-            url: "mpv:" + link,
-            active: false
-        }).then((t) => {
-            browser.tabs.remove(t.id)
+        browser.tabs.executeScript(
+            tab.id,
+            {code: `button = document.createElement("a")
+            button.href = \"` + link + "\"\n" +
+            `button.click()
+            console.log("uau")`
         })
     },
     title: "Open in MPV",
