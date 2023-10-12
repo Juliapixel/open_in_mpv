@@ -12,8 +12,7 @@ browser.menus.create({
             tab.id,
             {code: `button = document.createElement("a")
             button.href = \"` + link + "\"\n" +
-            `button.click()
-            console.log("uau")`
+            `button.click()`
         })
     },
     title: "Open in MPV",
