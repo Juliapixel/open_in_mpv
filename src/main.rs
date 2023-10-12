@@ -38,6 +38,13 @@ fn add_desktop_entry() {
     }
 }
 
+fn remove_desktop_entry() {
+    match std::fs::remove_file(Path::new(ENTRY_PATH)) {
+        Ok(_) => info!("successfully removed .desktop entry"),
+        Err(e) => error!("failed to remove .desktop entry\n{e}"),
+    }
+}
+
 fn update_desktop_database() {
     let updater = std::process::Command::new("sudo")
         .arg("update-desktop-database").spawn();
@@ -53,7 +60,14 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
 
     match args[1].as_str() {
-        "start" => (),
+        "register" => {
+            add_desktop_entry();
+            update_desktop_database();
+        },
+        "remove" => {
+            remove_desktop_entry();
+            update_desktop_database();
+        }
         cmd => {
             info!("attempting to open {cmd}");
             let rule = Regex::new(r"^mpv:\/{0,3}(.*)").unwrap();
@@ -72,7 +86,4 @@ fn main() {
             return;
         }
     }
-
-    add_desktop_entry();
-    update_desktop_database();
 }
