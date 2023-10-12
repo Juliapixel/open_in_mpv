@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "Open in MPV",
+    "version": "1.0",
+    "author": "Juliapixel",
+    "developer": {
+        "name": "Juliapixel",
+        "url": "https://juliapixel.com"
+    },
+    "homepage_url": "https://juliapixel.com",
+
+    "description": "Adds an \"Open in MPV\" button to your context menus",
+
+    "permissions": [
+        "menus",
+        "tabs"
+    ],
+
+    "background":{
+        "scripts": ["background.js"]
+    }
+  }

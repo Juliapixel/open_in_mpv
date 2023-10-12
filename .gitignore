@@ -1,0 +1,9 @@
+/target
+.vscode
+
+# extension building stuff
+*.xpi
+*.zip
+credentials
+.web-extension-id
+extension/publish.sh
