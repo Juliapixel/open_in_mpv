@@ -4,6 +4,8 @@
 # extension building stuff
 *.xpi
 *.zip
-credentials
 .web-extension-id
+
+# private things no looking >:(
+credentials
 extension/publish.sh
