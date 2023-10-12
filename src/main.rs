@@ -6,6 +6,7 @@ use regex::Regex;
 const ENTRY: &str = "\
 [Desktop Entry]
 Type=Application
+NoDisplay=true
 Name=MPV URL handler
 Exec=\"{}\" %u
 StartupNotify=false
