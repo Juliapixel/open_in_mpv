@@ -53,7 +53,6 @@ fn update_desktop_database() {
     info!("desktop entry database updated successfully");
 }
 
-
 fn main() {
     env_logger::init_from_env(Env::new().default_filter_or("INFO"));
 
@@ -87,3 +86,16 @@ fn main() {
         }
     }
 }
+
+#[test]
+fn test_regex() {
+    let rule = Regex::new(r"^mpv:\/{0,3}(.*)").unwrap();
+    assert!(rule.is_match("mpv://testington"));
+    assert!(rule.is_match("mpv:/testing"));
+    assert!(rule.is_match("mpv:test"));
+    assert!(!rule.is_match("notmpv:test"));
+    assert!(!rule.is_match(" mpv:test"));
+}
+
+#[cfg(not(target_os="linux"))]
+compile_error!("This program only supports linux at the moment!");
