@@ -14,10 +14,15 @@ Terminal=false
 MimeType=x-scheme-handler/mpv;
 ";
 
+// has to be here because firefox just won't respect user-only .desktop entries
+// in ~/.local/share/applications, even though every single other program does
 static ENTRY_PATH: &str = "/usr/share/applications/mpv_url_handler.desktop";
 
 fn add_desktop_entry() {
-    let entry_str = ENTRY.replace("{}", format!("{}", std::env::current_exe().unwrap().display()).as_str());
+    let entry_str = ENTRY.replace(
+        "{}",
+        format!("{}", std::env::current_exe().unwrap().display()).as_str()
+    );
 
     let desktop_entry = std::fs::OpenOptions::new()
         .create(true)
