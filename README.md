@@ -23,6 +23,7 @@ only works on linux currently.
 ## On NixOS
 
 ```nix
+# flake.nix
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
@@ -50,7 +51,7 @@ only works on linux currently.
     policies = {
       Extensions = {
         Install = [
-          "https://addons.mozilla.org/firefox/downloads/file/4633943/c70ef7cd6f344053b5b0-1.0.3.xpi"
+          "https://github.com/Juliapixel/open_in_mpv/releases/download/v1.0.3/c70ef7cd6f344053b5b0-1.0.3.xpi"
         ];
       };
     };
