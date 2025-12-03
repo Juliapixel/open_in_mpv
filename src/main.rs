@@ -1,18 +1,9 @@
-use std::{io::Write, path::Path};
 use env_logger::Env;
-use log::{info, error};
+use log::{error, info};
 use regex::Regex;
+use std::{io::Write, path::Path};
 
-const ENTRY: &str = "\
-[Desktop Entry]
-Type=Application
-NoDisplay=true
-Name=MPV URL handler
-Exec=\"{}\" %u
-StartupNotify=false
-Terminal=false
-MimeType=x-scheme-handler/mpv;
-";
+const ENTRY: &str = include_str!("./open_in_mpv.desktop");
 
 // has to be here because firefox just won't respect user-only .desktop entries
 // in ~/.local/share/applications, even though every single other program does
@@ -21,7 +12,7 @@ static ENTRY_PATH: &str = "/usr/share/applications/mpv_url_handler.desktop";
 fn add_desktop_entry() {
     let entry_str = ENTRY.replace(
         "{}",
-        format!("{}", std::env::current_exe().unwrap().display()).as_str()
+        format!("{}", std::env::current_exe().unwrap().display()).as_str(),
     );
 
     let desktop_entry = std::fs::OpenOptions::new()
@@ -33,13 +24,16 @@ fn add_desktop_entry() {
     match desktop_entry {
         Ok(mut entry) => {
             info!("desktop entry opened successfully");
-            entry.write(entry_str.as_bytes()).expect("FAILED TO WRITE TO FILE");
+            let _ = entry
+                .write(entry_str.as_bytes())
+                .expect("FAILED TO WRITE TO FILE");
+            entry.flush().unwrap();
             info!("desktop entry written to successfully");
-        },
+        }
         Err(e) => {
             error!("failed to open or create desktop entry file!");
             panic!("{e:?}");
-        },
+        }
     }
 }
 
@@ -52,7 +46,8 @@ fn remove_desktop_entry() {
 
 fn update_desktop_database() {
     let updater = std::process::Command::new("sudo")
-        .arg("update-desktop-database").spawn();
+        .arg("update-desktop-database")
+        .spawn();
 
     updater.unwrap().wait().unwrap();
     info!("desktop entry database updated successfully");
@@ -67,7 +62,7 @@ fn main() {
         "register" => {
             add_desktop_entry();
             update_desktop_database();
-        },
+        }
         "remove" => {
             remove_desktop_entry();
             update_desktop_database();
@@ -80,14 +75,17 @@ fn main() {
                     let target = url.get(1).unwrap().as_str();
                     info!("opening {target} on mpv");
                     std::process::Command::new("mpv")
-                        .arg(target).spawn().unwrap().wait().unwrap();
+                        .arg(target)
+                        .spawn()
+                        .unwrap()
+                        .wait()
+                        .unwrap();
                     info!("finished playing")
-                },
+                }
                 None => {
                     error!("{cmd} is not a valid url")
                 }
             }
-            return;
         }
     }
 }
@@ -102,5 +100,5 @@ fn test_regex() {
     assert!(!rule.is_match(" mpv:test"));
 }
 
-#[cfg(not(target_os="linux"))]
+#[cfg(not(target_os = "linux"))]
 compile_error!("This program only supports linux at the moment!");

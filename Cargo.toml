@@ -1,11 +1,11 @@
 [package]
-name = "mpv_protocol_handler"
-version = "0.1.0"
-edition = "2021"
+name = "open_in_mpv"
+version = "1.0.3"
+edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-env_logger = "0.10"
+env_logger = "0.11"
 log = "0.4"
-regex = "1.10"
+regex = "1.12"

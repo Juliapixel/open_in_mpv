@@ -1,6 +1,7 @@
 browser.menus.create({
     onclick: (info, tab) => {
-        link = "mpv://"
+        link = "mpv:"
+        console.log(info, tab)
         if (info.linkUrl !== undefined) {
             link += info.linkUrl
         } else if (info.srcUrl !== undefined) {
